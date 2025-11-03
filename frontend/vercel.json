@@ -6,6 +6,6 @@
     }
   ],
   "env": {
-    "VITE_API_URL": "https://ask-vanny-xcxa.vercel.app/api"
+    "VITE_API_URL": "https://talk-to-vanny.vercel.app/api"
   }
 }
