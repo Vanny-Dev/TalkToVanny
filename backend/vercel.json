@@ -13,6 +13,6 @@
     }
   ],
   "env": {
-    "MONGODB_URI": "mongodb+srv://vannydev:vannydev@cluster0.zkyy0j3.mongodb.net/?appName=Cluster0"
+    "MONGODB_URI": "@MONGODB_URI"
   }
 }
