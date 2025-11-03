@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Message from '../models/Message';
 import User from '../models/User';
-import { io } from '../server';
+// import { io } from '../server';
 
 export class MessageController {
   static async createMessage(req: Request, res: Response) {
@@ -47,11 +47,11 @@ export class MessageController {
       };
 
       // ✅ FIXED: Emit BOTH message data AND updated count
-      io.to(`user:${user.username}`).emit('newMessage', {
-        message: messageData,
-        username: user.username,
-        messageCount: messageNumber  // This is the new total count
-      });
+      // io.to(`user:${user.username}`).emit('newMessage', {
+      //   message: messageData,
+      //   username: user.username,
+      //   messageCount: messageNumber  // This is the new total count
+      // });
 
       res.status(201).json({
         success: true,
@@ -114,10 +114,10 @@ export class MessageController {
       await message.save();
 
       // Emit like update to the recipient's room
-      io.to(`user:${message.recipient}`).emit('messageUpdated', {
-        id: message._id,
-        liked: message.liked,
-      });
+      // io.to(`user:${message.recipient}`).emit('messageUpdated', {
+      //   id: message._id,
+      //   liked: message.liked,
+      // });
 
       res.json({
         success: true,

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../../../frontend/src/services/api';
 import { ArrowLeft, Send, User, MessageCircle, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
 import type { User as UserType } from '../types';
-import { io, Socket } from 'socket.io-client';
+// import { io, Socket } from 'socket.io-client';
 
 const Profile: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -17,19 +17,19 @@ const Profile: React.FC = () => {
   const [charCount, setCharCount] = useState(0);
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  // const [socket, setSocket] = useState<Socket | null>(null);
 
   // Initialize Socket.io connection
-  useEffect(() => {
-    // Connect to your backend socket server
-    const newSocket = io(import.meta.env.REACT_APP_API_URL || 'http://localhost:5000');
-    setSocket(newSocket);
+  // useEffect(() => {
+  //   // Connect to your backend socket server
+  //   const newSocket = io(import.meta.env.REACT_APP_API_URL || 'http://localhost:5000');
+  //   setSocket(newSocket);
 
-    // Cleanup on unmount
-    return () => {
-      newSocket.disconnect();
-    };
-  }, []);
+  //   // Cleanup on unmount
+  //   return () => {
+  //     newSocket.disconnect();
+  //   };
+  // }, []);
 
   // Load user data
   useEffect(() => {
@@ -37,25 +37,25 @@ const Profile: React.FC = () => {
   }, [username]);
 
   // Listen for real-time message updates
-  useEffect(() => {
-    if (!socket || !username) return;
+  // useEffect(() => {
+  //   if (!socket || !username) return;
 
-    // Join room for this user (matches your server's 'join' event)
-    socket.emit('join', username);
+  //   // Join room for this user (matches your server's 'join' event)
+  //   socket.emit('join', username);
 
-    // Listen for new message events
-    socket.on('newMessage', (data: { username: string; messageCount: number }) => {
-      if (data.username === username) {
-        setUser(prev => prev ? { ...prev, messageCount: data.messageCount } : null);
-      }
-    });
+  //   // Listen for new message events
+  //   socket.on('newMessage', (data: { username: string; messageCount: number }) => {
+  //     if (data.username === username) {
+  //       setUser(prev => prev ? { ...prev, messageCount: data.messageCount } : null);
+  //     }
+  //   });
 
-    // Cleanup
-    return () => {
-      socket.off('newMessage');
-      socket.emit('leave', username);
-    };
-  }, [socket, username]);
+  //   // Cleanup
+  //   return () => {
+  //     socket.off('newMessage');
+  //     socket.emit('leave', username);
+  //   };
+  // }, [socket, username]);
 
   const loadUser = async () => {
     try {

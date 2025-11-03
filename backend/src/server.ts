@@ -18,34 +18,34 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 // Initialize Socket.IO
-export const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
-});
+// export const io = new Server(server, {
+//   cors: {
+//     origin: process.env.CLIENT_URL,
+//     methods: ['GET', 'POST'],
+//     credentials: true,
+//   },
+// });
 
-// Socket.IO connection handling
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
+// // Socket.IO connection handling
+// io.on('connection', (socket) => {
+//   console.log('Client connected:', socket.id);
 
-  // Join a room for a specific user
-  socket.on('join', (username: string) => {
-    socket.join(`user:${username}`);
-    console.log(`Socket ${socket.id} joined room: user:${username}`);
-  });
+//   // Join a room for a specific user
+//   socket.on('join', (username: string) => {
+//     socket.join(`user:${username}`);
+//     console.log(`Socket ${socket.id} joined room: user:${username}`);
+//   });
 
-  // Leave a room
-  socket.on('leave', (username: string) => {
-    socket.leave(`user:${username}`);
-    console.log(`Socket ${socket.id} left room: user:${username}`);
-  });
+//   // Leave a room
+//   socket.on('leave', (username: string) => {
+//     socket.leave(`user:${username}`);
+//     console.log(`Socket ${socket.id} left room: user:${username}`);
+//   });
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
-  });
-});
+//   socket.on('disconnect', () => {
+//     console.log('Client disconnected:', socket.id);
+//   });
+// });
 
 // Middleware
 app.use(cors());

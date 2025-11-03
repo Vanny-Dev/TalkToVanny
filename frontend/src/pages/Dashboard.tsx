@@ -3,17 +3,17 @@ import { Heart, Copy, LogOut, MessageCircle, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Message } from '../types';
 import { api } from '../services/api';
-import { io, Socket } from 'socket.io-client';
+// import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:5000';
+// const SOCKET_URL = 'http://localhost:5000';
 
 const Dashboard: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [copied, setCopied] = useState(false);
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
+  // const [socket, setSocket] = useState<Socket | null>(null);
+  // const [isConnected, setIsConnected] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,61 +28,61 @@ const Dashboard: React.FC = () => {
     setUsername(userData.username);
     loadMessages(userData.username);
 
-    // Initialize Socket.IO connection
-    const newSocket = io(SOCKET_URL, {
-      transports: ['websocket', 'polling'],
-    });
+    // // Initialize Socket.IO connection
+    // const newSocket = io(SOCKET_URL, {
+    //   transports: ['websocket', 'polling'],
+    // });
 
-    newSocket.on('connect', () => {
-      console.log('Connected to WebSocket');
-      setIsConnected(true);
-      // Join the user's room
-      newSocket.emit('join', userData.username);
-    });
+    // newSocket.on('connect', () => {
+    //   console.log('Connected to WebSocket');
+    //   setIsConnected(true);
+    //   // Join the user's room
+    //   newSocket.emit('join', userData.username);
+    // });
 
-    newSocket.on('disconnect', () => {
-      console.log('Disconnected from WebSocket');
-      setIsConnected(false);
-    });
+    // newSocket.on('disconnect', () => {
+    //   console.log('Disconnected from WebSocket');
+    //   setIsConnected(false);
+    // });
 
-    // Listen for new messages
-    newSocket.on('newMessage', (newMessage: Message) => {
-      console.log('New message received:', newMessage);
-      setMessages((prevMessages) => [newMessage, ...prevMessages]);
+    // // Listen for new messages
+    // newSocket.on('newMessage', (newMessage: Message) => {
+    //   console.log('New message received:', newMessage);
+    //   setMessages((prevMessages) => [newMessage, ...prevMessages]);
       
-      // Optional: Show notification
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('New Message!', {
-          body: newMessage.content.substring(0, 50) + '...',
-          icon: '/favicon.ico',
-        });
-      }
-    });
+    //   // Optional: Show notification
+    //   if ('Notification' in window && Notification.permission === 'granted') {
+    //     new Notification('New Message!', {
+    //       body: newMessage.content.substring(0, 50) + '...',
+    //       icon: '/favicon.ico',
+    //     });
+    //   }
+    // });
 
-    // Listen for message updates (like toggle)
-    newSocket.on('messageUpdated', ({ id, liked }: { id: string; liked: boolean }) => {
-      console.log('Message updated:', id, liked);
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === id ? { ...msg, liked } : msg
-        )
-      );
-    });
+    // // Listen for message updates (like toggle)
+    // newSocket.on('messageUpdated', ({ id, liked }: { id: string; liked: boolean }) => {
+    //   console.log('Message updated:', id, liked);
+    //   setMessages((prevMessages) =>
+    //     prevMessages.map((msg) =>
+    //       msg.id === id ? { ...msg, liked } : msg
+    //     )
+    //   );
+    // });
 
-    setSocket(newSocket);
+    // setSocket(newSocket);
 
-    // Request notification permission
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
+    // // Request notification permission
+    // if ('Notification' in window && Notification.permission === 'default') {
+    //   Notification.requestPermission();
+    // }
 
-    // Cleanup on unmount
-    return () => {
-      if (newSocket) {
-        newSocket.emit('leave', userData.username);
-        newSocket.disconnect();
-      }
-    };
+    // // Cleanup on unmount
+    // return () => {
+    //   if (newSocket) {
+    //     newSocket.emit('leave', userData.username);
+    //     newSocket.disconnect();
+    //   }
+    // };
 
   }, [navigate]);
 
@@ -109,10 +109,10 @@ const Dashboard: React.FC = () => {
   };
 
   const handleLogout = () => {
-    if (socket) {
-      socket.emit('leave', username);
-      socket.disconnect();
-    }
+    // if (socket) {
+    //   socket.emit('leave', username);
+    //   socket.disconnect();
+    // }
     localStorage.removeItem('user');
     navigate('/');
   };
@@ -312,7 +312,7 @@ const Dashboard: React.FC = () => {
                   Dashboard
                 </h1>
                 {/* Connection Status Indicator */}
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <div
                     className={`w-3 h-3 rounded-full ${
                       isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'
@@ -321,7 +321,7 @@ const Dashboard: React.FC = () => {
                   <span className={`text-xs ${isConnected ? 'text-green-600' : 'text-red-600'}`}>
                     {isConnected ? 'Live' : 'Offline'}
                   </span>
-                </div>
+                </div> */}
               </div>
               <p className="text-purple-300 text-lg mt-2">@{username}</p>
               <div className="mt-4 flex items-center gap-2">
